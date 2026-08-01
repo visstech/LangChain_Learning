@@ -1,0 +1,2 @@
+LangChain helps developers build applications powered by Large Language Models.
+It provides components for prompts, chains, agents, and RAG systems.
