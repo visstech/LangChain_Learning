@@ -1,0 +1,12 @@
+Motor Insurance Policy
+
+A policyholder must report an accident within 30 days.
+
+The claim form should include:
+- Policy number
+- Accident details
+- Vehicle information
+
+The company will process valid claims after verification.
+
+Policy renewal should be completed before the expiry date.
