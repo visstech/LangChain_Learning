@@ -166,3 +166,32 @@ while True:
 print("\nFinal Answer:\n")
 
 print(response.content)
+
+"""
+=====================================================
+
+Key Learning:
+
+A Multi Tool AI Agent follows:
+
+1. Reason
+2. Select Tool
+3. Execute Tool
+4. Observe Result
+5. Reason Again
+
+The loop continues until:
+
+response.tool_calls == []
+
+At that point the Agent generates
+the final answer.
+
+
+This is the foundation of:
+
+- ReAct Agents
+- LangGraph Workflows
+- Autonomous AI Systems
+=====================================================
+"""

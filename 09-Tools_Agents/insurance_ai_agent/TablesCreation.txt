@@ -1,0 +1,149 @@
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'public';
+
+CREATE TABLE customers (
+    customer_id VARCHAR(20) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150),
+    phone VARCHAR(30),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+INSERT INTO customers (
+    customer_id,
+    name,
+    email,
+    phone
+)
+VALUES (
+    'CUST001',
+    'Senthil',
+    'senthil@example.com',
+    '+60-123456789'
+);
+
+commit;
+
+select * from customers;
+
+
+CREATE TABLE policies (
+    policy_id VARCHAR(20) PRIMARY KEY,
+    customer_id VARCHAR(20) NOT NULL,
+    policy_type VARCHAR(100) NOT NULL,
+    status VARCHAR(30) NOT NULL,
+    start_date DATE,
+    expiry_date DATE,
+    premium DECIMAL(12, 2),
+
+    CONSTRAINT fk_policy_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customers(customer_id)
+);
+
+INSERT INTO policies (
+    policy_id,
+    customer_id,
+    policy_type,
+    status,
+    start_date,
+    expiry_date,
+    premium
+)
+VALUES (
+    'POL001',
+    'CUST001',
+    'Motor Insurance',
+    'Active',
+    '2026-01-01',
+    '2026-12-31',
+    2500.00
+);
+
+commit;
+
+select * from policies
+
+CREATE TABLE claims (
+    claim_id VARCHAR(20) PRIMARY KEY,
+    customer_id VARCHAR(20) NOT NULL,
+    policy_id VARCHAR(20) NOT NULL,
+    incident_date DATE,
+    claim_date DATE,
+    status VARCHAR(50) NOT NULL,
+    amount DECIMAL(12, 2),
+    reason TEXT,
+
+    CONSTRAINT fk_claim_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customers(customer_id),
+
+    CONSTRAINT fk_claim_policy
+        FOREIGN KEY (policy_id)
+        REFERENCES policies(policy_id)
+);
+
+
+INSERT INTO claims (
+    claim_id,
+    customer_id,
+    policy_id,
+    incident_date,
+    claim_date,
+    status,
+    amount,
+    reason
+)
+VALUES (
+    'CLM001',
+    'CUST001',
+    'POL001',
+    '2026-07-01',
+    '2026-07-03',
+    'Under Review',
+    5000.00,
+    'Vehicle accident damage'
+);
+
+
+INSERT INTO claims (
+    claim_id,
+    customer_id,
+    policy_id,
+    incident_date,
+    claim_date,
+    status,
+    amount,
+    reason
+)
+VALUES (
+    'CLM003',
+    'CUST001',
+    'POL001',
+    '2026-06-10',
+    '2026-06-12',
+    'Rejected',
+    3000.00,
+    'Claim submitted outside coverage conditions'
+);
+
+commit;
+
+SELECT * FROM claims;
+
+CREATE TABLE conversation_messages (
+    id SERIAL PRIMARY KEY,
+    customer_id VARCHAR(50) NOT NULL,
+    role VARCHAR(20) NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE conversation_summaries (
+    id SERIAL PRIMARY KEY,
+    customer_id VARCHAR(50) NOT NULL UNIQUE,
+    summary TEXT NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
